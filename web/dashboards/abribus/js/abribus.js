@@ -54,7 +54,9 @@ function handleRaddec(raddec) {
   }
 }
 
-
+function dispTime() {
+  let now = new Date();
+}
 // Handle environmental beacon data
 function handleEnvironmentalBeacon(raddec) {
   // TODO: handle environmental beacon
@@ -87,19 +89,62 @@ function updateGraphs() {
   getJson(baseUrl + HOUR_OF_DAY_ROUTE, function(response) {
     if(response) {
       let hourOfDay = response;
-      // TODO: update hour of day graph
-
+      const trace1 = {
+        x: hourOfDay.x,
+        y: hourOfDay.y,
+        type: 'scatter',
+        market : {
+          opacity:0.7,
+          color:'rgb(49,130,189)'
+        }
+      };
+      const data = [trace1];
+      const layout = {
+        xaxis: {
+          tickangle: -45
+        }
+      };
+      Plotly.newPlot('linechart', data, layout, {showSendToCloud: true});
       // Day of Week graph
       getJson(baseUrl + DAY_OF_WEEK_ROUTE, function(response) {
         if(response) {
           let dayOfWeek = response;
-          // TODO: update day of week graph
+          var trace1 = {
+            x: dayOfWeek.x, 
+            y: dayOfWeek.y,
+            type: 'bar',
+            name: 'Affluence Semaine',
+            marker: {
+              color: 'rgb(49,130,189)',
+              opacity: 0.7
+            }
+          };
+          var data = [trace1];
+          var layout = {
+            xaxis: {
+              tickangle: -45
+            }
+          };
+          Plotly.newPlot('barchart', data, layout, {showSendToCloud:true});
 
           // Zone by Time graph
           getJson(baseUrl + ZONE_BY_TIME_ROUTE, function(response) {
             if(response) {
               let zoneByTime = response;
-              // TODO: update zone by time graph
+              var data = [
+                {
+                  z:zoneByTime.z ,
+                  x: zoneByTime.x,
+                  y: zoneByTime.y,
+                  type: 'heatmap'
+                }
+              ];
+              var layout = {
+                  xaxis: {
+                    tickangle: -45
+                  }
+              }
+              Plotly.newPlot('heatmap', data, layout, {showSendToCloud: true});
             }
           });
         }
@@ -132,6 +177,11 @@ function getJson(url, callback) {
 
 // The following code runs on startup...
 getJson(baseUrl + CONFIG_ROUTE, function(response) {
+  setInterval(() => {
+    let mtn = new Date();
+    let dateNode = document.getElementById('date');
+    dateNode.innerText = `${mtn.getHours()}:${mtn.getMinutes()}:${mtn.getSeconds()}`;
+  }, 1000)
   if(response) {
     config = response;
     initialiseBeaver(config.hlcServerUrl);

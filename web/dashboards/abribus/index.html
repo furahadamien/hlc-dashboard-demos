@@ -6,12 +6,13 @@
           content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description"
           content="Tableau de bord pour abribus par reelyActive.">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <link rel="stylesheet" href="../../style/bootstrap.min.css">
     <link rel="stylesheet" href="../../style/reelyactive.css">
     <title> Abribus par reelyActive </title>
   </head>
   <body>
-    <!----- Navigation ----->
+    <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-reelyactive bg-reelyactive">
       <a class="navbar-brand" href="https://www.reelyactive.com/">
         <img src="../../images/reelyactive-logo-nav.png"
@@ -90,11 +91,40 @@
         </ul>
       </div>
     </nav>
-    <!----- Content ----->
+    <!-- Content -->
     <div class="container-fluid">
       <div class="row justify-content-center">
         <div class="col-sm-12 col-md-12 col-lg-12 col-xl-8">
-
+          <h1 class="mt-4">Abribus QI</h1>
+          <div class="row">
+            <dl class="row" id="block1">
+              <dt class="col-sm-2">Ecran</dt>
+              <dd class="col-sm-9">Allum&eacute;/Eteind</dd>
+              <dt class="col-sm-2">Si&egrave;ges</dt>
+              <dd class="col-sm-9">Libre/Occup&eacute;</dd>
+            </dl>
+            <dl class="row">
+              <dt class="col-sm-8">Heure</dt>
+              <dd class="col-sm-2"><span id="date"></span></dd>
+              <dt class="col-sm-8">Temp&eacute;rature et Humidit&eacute;</dt>
+              <dd class="col-sm-2">20°</dd>
+            </dl>
+            </div> 
+          <div class="linechart-plot">
+          <!--Line Chart-->
+            <div id="linechart"></div>
+            <h5 class="text-center">Heures d'affluences sur la journ&eacute;e</h5>
+          </div>
+          <!--Bar Chart-->
+          <div class="barchart-plot">
+            <div id="barchart"></div>
+            <h5 class="text-center">Jours d'affluences sur la semaine</h5>
+          </div>
+          <!--Heatmap-->
+          <div calss="heatmap-plot">
+            <div id="heatmap"></div>
+            <h5 class="text-center">Heatmap</h5>
+          </div>
         </div>
       </div>
     </div>
