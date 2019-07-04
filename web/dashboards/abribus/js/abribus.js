@@ -10,9 +10,15 @@ const CONFIG_ROUTE = BASE_ROUTE + '/config';
 const HOUR_OF_DAY_ROUTE = BASE_ROUTE + '/hourofday';
 const DAY_OF_WEEK_ROUTE = BASE_ROUTE + '/dayofweek';
 const ZONE_BY_TIME_ROUTE = BASE_ROUTE + '/zonebytime';
+const SEAT_OCCUPANCY_RSSI_THRESHOLD = -75;
 
 
 // DOM elements
+let temperature = document.querySelector('#temperature');
+let humidity = document.querySelector('#humidity');
+let displayStatus = document.querySelector('#displaystatus');
+let leftSeat = document.querySelector('#leftseat');
+let rightSeat = document.querySelector('#rightseat');
 
 
 // Other variables
@@ -57,27 +63,61 @@ function handleRaddec(raddec) {
 function dispTime() {
   let now = new Date();
 }
+
 // Handle environmental beacon data
 function handleEnvironmentalBeacon(raddec) {
-  // TODO: handle environmental beacon
+  let packet = raddec.packets[0];
+  let isSensorPacket = packet && (packet.length === 72);
+
+  if(isSensorPacket) {
+    let t = parseInt(packet.substr(44,2),16) +
+            parseInt(packet.substr(46,2),16) / 256;
+    let h = parseInt(packet.substr(48,2),16) +
+            parseInt(packet.substr(50,2),16) / 256;
+    temperature.textContent = t.toFixed(1);
+    humidity.textContent = h.toFixed(1);
+  }
 }
 
 
 // Handle left seat beacon data
 function handleLeftSeatBeacon(raddec) {
-  // TODO: handle left seat beacon
+  let rssi = raddec.rssiSignature[0].rssi;
+  if(rssi > SEAT_OCCUPANCY_RSSI_THRESHOLD) {
+    leftSeat.textContent = 'Vacant';
+  }
+  else {
+    leftSeat.textContent = 'Occupe';
+  }
 }
 
 
 // Handle right seat beacon data
 function handleRightSeatBeacon(raddec) {
-  // TODO: handle right seat beacon
+  let rssi = raddec.rssiSignature[0].rssi;
+  if(rssi > SEAT_OCCUPANCY_RSSI_THRESHOLD) {
+    rightSeat.textContent = 'Vacant';
+  }
+  else {
+    rightSeat.textContent = 'Occupe';
+  }
 }
 
 
 // Handle left seat beacon data
 function handleDisplayBeacon(raddec) {
-  // TODO: handle display beacon
+  let packet = raddec.packets[0];
+  let isSensorPacket = packet && (packet.length === 58);
+
+  if(isSensorPacket) {
+    let isVisibleLight = (parseInt(packet.substr(44,2),16) > 0);
+    if(isVisibleLight) {
+      displayStatus.textContent = 'Allume';
+    }
+    else {
+      displayStatus.textContent = 'Eteint';
+    }
+  }
 }
 
 

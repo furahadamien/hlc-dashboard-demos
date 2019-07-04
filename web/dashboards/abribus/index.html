@@ -111,15 +111,21 @@
           <div class="row">
             <dl class="row" id="block1">
               <dt class="col-sm-4">Etat de l'&eacute;cran</dt>
-              <dd class="col-sm-6">Allum&eacute;/Eteind</dd>
-              <dt class="col-sm-4">Etat du si&egrave;ges</dt>
-              <dd class="col-sm-6">Libre/Occup&eacute;</dd>
+              <dd class="col-sm-6" id="displaystatus"></dd>
+              <dt class="col-sm-4">Etat des si&egrave;ges</dt>
+              <dd class="col-sm-6">
+                <span id="leftseat">Inconnu</span> |
+                <span id="rightseat">Inconnu</span>
+              </dd>
             </dl>
             <dl class="row">
               <dt class="col-sm-6">Heure locale</dt>
-              <dd class="col-sm-4"><span id="date"></span></dd>
+              <dd class="col-sm-4" id="date"></dd>
               <dt class="col-sm-6">Temp&eacute;rature et Humidit&eacute;</dt>
-              <dd class="col-sm-4">20°</dd>
+              <dd class="col-sm-4">
+                <span id="temperature"></span>&deg;C
+                <span id="humidity"></span>%
+              </dd>
             </dl>
             </div> 
           <div class="linechart-plot">
