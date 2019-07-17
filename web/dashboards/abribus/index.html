@@ -7,6 +7,7 @@
     <meta name="description"
           content="Tableau de bord pour abribus par reelyActive.">
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../style/bootstrap.min.css">
     <link rel="stylesheet" href="../../style/reelyactive.css">
     <title> Abribus par reelyActive </title>
@@ -17,18 +18,6 @@
       <a class="navbar-brand" href="https://www.reelyactive.com/">
         <img class="mr-3" src="../../images/reelyactive-logo-nav.png"
              width="165" height="30" alt="reelyActive">
-      </a>
-      <a class="navbar-brand" href="http://www.videotron.com/">
-        <img class="mr-3" src="../../images/logo-videotron.png"
-             width="165" height="30" alt="videotron">
-      </a>
-      <a class="navbar-brand" href="https://www.quartierinnovationmontreal.com/">
-        <img class="mr-3" src="../../images/logo-qi.png"
-             height="30" alt="quartier de l'innovation">
-      </a>
-      <a class="navbar-brand" href="https://labiot.uqam.ca/">
-        <img class="mr-3" src="../../images/logo-lab.png"
-             height="30" alt="Lab IoT ">
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse"
               data-target="#navbarItems" aria-controls="navbarItems"
@@ -106,42 +95,136 @@
     <!-- Content -->
     <div class="container-fluid">
       <div class="row justify-content-center">
-        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-8">
-          <h1 class="mt-4 mb-4 text-center">AbI - Abribus Intelligent</h1>
+        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-10">
+          <h1 class="mt-4">AbI - Abribus Intelligent</h1>
+          <!-- First row real-time Dashboard-->
           <div class="row">
-            <dl class="row" id="block1">
-              <dt class="col-sm-4">Etat de l'&eacute;cran</dt>
-              <dd class="col-sm-6" id="displaystatus"></dd>
-              <dt class="col-sm-4">Etat des si&egrave;ges</dt>
-              <dd class="col-sm-6">
-                <span id="leftseat">Inconnu</span> |
-                <span id="rightseat">Inconnu</span>
-              </dd>
-            </dl>
-            <dl class="row">
-              <dt class="col-sm-6">Heure locale</dt>
-              <dd class="col-sm-4" id="date"></dd>
-              <dt class="col-sm-6">Temp&eacute;rature et Humidit&eacute;</dt>
-              <dd class="col-sm-4">
-                <span id="temperature"></span>&deg;C
-                <span id="humidity"></span>%
-              </dd>
-            </dl>
-            </div> 
+            <div class="col-sm-6 mt-4">
+              <div class="card text-white bg-primary mb-3" style="height: 18rem;">
+                <h3 class="card-header"><i class="fas fa-clock"></i> Heure Locale</h3>
+                <div class="card-body">
+                  <p class="card-text text-center" id="date" style="font-size: 8rem"></p>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 mt-4">
+              <div id="id_status" class="card text-white bg-primary mb-3" style="height: 18rem;">
+                <h3 class="card-header"><i class="fas fa-tablet-alt"></i> Etat de l'&eacute;cran</h3>
+                <div class="card-body">
+                  <p class="card-text text-center" style="font-size: 75px;" id="displaystatusicon">
+                    <i class="fas fa-toggle-on"></i>
+                  </p>
+                  <!--<p class="card-text text-center" id="displaystatus"></p>-->
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 mt-4">
+              <div class="card text-white bg-primary mb-3" style="height: 18rem;">
+                <h3 class="card-header"><i class="fas fa-users"></i> Nombre de personnes dans l'AbI</h3>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <p class="card-text text-right" id="occupancycount" style="font-size:7rem;"></p>
+                    </div>
+                    <div class="col-sm-4 mt-3">
+                      <p class="card-text"><i class="fas fa-user" style="font-size:7rem;"></i></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--Second Row real-time Dashboard-->
+          <div class="row">
+            <div class="col-sm-3 mt-4">
+              <div id="id_seatLeft" class="card text-white bg-primary mb-3" style="height: 18rem;">
+                <h3 class="card-header"><i class="fas fa-chair"></i> Etat du si&egrave;ge gauche</h3>
+                <div class="card-body">
+                  <p class="card-text text-center" style="font-size: 8rem;">
+                    <span id="leftseat"><i class="fas fa-chair"></i></span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 mt-4">
+              <div id="id_seatRight" class="card text-white bg-primary mb-3" style="height: 18rem;">
+                <h3 class="card-header"><i class="fas fa-chair"></i> Etat du si&egrave;ge droit</h3>
+                <div class="card-body">
+                  <p class="card-text text-center" style="font-size: 8rem;">
+                    <span id="rightseat"><i class="fas fa-chair"></i></span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 mt-4">
+              <div class="card text-white bg-primary mb-3" style="height: 18rem;">
+                <h3 class="card-header"><i class="fas fa-thermometer-half"></i> Etat de la temp&eacute;rature</h3>
+                <div class="card-body">
+                  <p class="card-text text-center" style="font-size: 6rem;">
+                    <span id="temperature"></span>&deg;C 
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-3 mt-4">
+              <div class="card text-white bg-primary mb-3" style="height: 18rem;">
+                <h3 class="card-header"><i class="fas fa-tint"></i> Etat de l'humidit&eacute;</h3>
+                <div class="card-body">
+                  <p class="card-text text-center" style="font-size: 6rem;">
+                    <span id="humidity"></span>%
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>  
+          <!--Plots Content-->
           <div class="linechart-plot">
           <!--Line Chart-->
-            <div id="linechart"></div>
-            <h5 class="text-center">Heures d'affluences sur la journ&eacute;e</h5>
+          <div class="card mt-4">
+            <h3 class="card-header">Nombre d'appareils détectés par minute</h3>
+            <div class="card-body">
+              <div id="linechart"></div>
           </div>
+          </div>
+        </div>
           <!--Bar Chart-->
           <div class="barchart-plot">
-            <div id="barchart"></div>
-            <h5 class="text-center">Jours d'affluences sur la semaine</h5>
+          <div class="card mt-4">
+            <h3 class="card-header">Heures d'affluences sur la journée (12h)</h3>
+            <div class="card-body">
+              <div id="barchart"></div>
+            </div>
+          </div>
           </div>
           <!--Heatmap-->
           <div calss="heatmap-plot">
-            <div id="heatmap"></div>
-            <h5 class="text-center">Heatmap</h5>
+            <div class="card mt-4">
+             <h3 class="card-header">Carte thermique de l'abribus</h3>
+             <div class="card-body">
+               <div id="heatmap"></div>
+             </div>
+          </div>
+          </div>
+          <!--Logos-->
+          <div class="row mt-4">
+            <div class="col-sm-4 mt-4 mb-4 text-center">
+              <a href="http://www.videotron.com/">
+                <img class="mr-3" src="../../images/logo-videotron.png"
+                  width="165" height="30" alt="videotron">
+              </a>
+            </div>
+            <div class="col-sm-4 mt-4 mb-4 text-center">
+              <a href="https://www.quartierinnovationmontreal.com/">
+                <img class="mr-3" src="../../images/logo-qi.png"
+                  height="30" alt="quartier de l'innovation">
+              </a>
+            </div>
+            <div class="col-sm-4 mt-4 mb-4 text-center">
+              <a href="https://labiot.uqam.ca/">
+                <img class="mr-3" src="../../images/logo-lab.png"
+                  height="30" alt="Lab IoT ">
+              </a>
+            </div>      
           </div>
         </div>
       </div>
